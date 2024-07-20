@@ -70,12 +70,18 @@
             ]
         };
 
+        let remainingItems = [...data.data]; // 剩餘的未顯示圖片項目列表
+
         const imageElement = document.getElementById('random-image');
         const inputElement = document.getElementById('name-input');
         const submitButton = document.getElementById('submit-btn');
 
         function generateRandomItem() {
-            const randomItem = data.data[Math.floor(Math.random() * data.data.length)];
+            if (remainingItems.length === 0) {
+                remainingItems = [...data.data]; // 重新填充圖片項目列表
+            }
+            const randomIndex = Math.floor(Math.random() * remainingItems.length);
+            const randomItem = remainingItems.splice(randomIndex, 1)[0]; // 隨機選取並移除該項目
             imageElement.src = randomItem.image_url;
             inputElement.dataset.correctName = randomItem.name;
             inputElement.dataset.aka = JSON.stringify(randomItem.aka);
